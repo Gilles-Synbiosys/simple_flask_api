@@ -15,6 +15,15 @@ def test_json_with_proper_mimetype(client):
     assert response.content_type == 'application/json'
 
 
+def test_not_found(client):
+    # let's make sure general not found errors work
+    response = client.get('/not/real/url')
+    json = response.get_json()
+    assert response.status_code == 404
+    assert response.content_type == 'application/json'
+    assert json['error'] == '404 Not Found'
+
+
 def test_hello_world(client):
     # let's test that we have a successful request
     # and that we're getting the JSON message
@@ -49,5 +58,6 @@ def test_list_not_found(client):
     # when no list is found
     response = client.get('/lists/99')
     json = response.get_json()
+    print(json)
     assert response.status_code == 404
     assert json['error'] == '404 Not Found'
