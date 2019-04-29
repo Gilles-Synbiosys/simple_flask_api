@@ -58,6 +58,5 @@ def test_list_not_found(client):
     # when no list is found
     response = client.get('/lists/99')
     json = response.get_json()
-    print(json)
     assert response.status_code == 404
     assert json['error'] == '404 Not Found'
